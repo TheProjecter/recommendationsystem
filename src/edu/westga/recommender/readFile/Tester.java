@@ -58,7 +58,8 @@ public class Tester {
 			 
 
 			Statement select = con.createStatement();
-			result = select.executeQuery("SELECT * from musicinfo Where " + field+"="+ fieldValue);
+			result = select.executeQuery("SELECT * from musicinfo Where Genre = "+ field+
+					" and BeatPattern = " + fieldValue);
 			//	prepStmt = con.prepareStatement(sqlStmt);
 		//	System.out.println(prepStmt.toString());
 		//	prepStmt.setString(1,field);
@@ -85,6 +86,7 @@ public class Tester {
 	
 	
 	public static void main(String args[]) {
+		
 //		String field="Femi"	;
 //		String fieldValue="Femi"	;
 		Tester test= new Tester();
