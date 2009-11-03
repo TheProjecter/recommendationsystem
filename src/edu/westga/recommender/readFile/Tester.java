@@ -34,12 +34,12 @@ public class Tester {
 //		    }
 //		  }
 
-	public ResultSet returnForSong(String songName) {
+	public ResultSet returnForSong(String field, String songName) {
 		ResultSet result=null;
 		try {
 			Statement select = con.createStatement();
 			result = select
-					.executeQuery("SELECT * from musicinfo where SongName="+songName);
+					.executeQuery("SELECT * from musicinfo where " +field+ "=" + songName);
 		//	result.next();
 		//	rowResult = result.getString("SongName");
 		} catch (SQLException e) {

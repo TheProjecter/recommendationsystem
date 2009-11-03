@@ -2,15 +2,17 @@ package edu.wesga.recommender.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 import edu.westga.recommender.readFile.Tester;
 
 public class ProcessResultSet {
 	Tester test;
 	ResultSet result;
-	ResultSet genreSet;
-	ResultSet beatSet;
+	ResultSet bestMatchSet;
+	ResultSet betterMatchSet;
 	String songName;
 	String artist;
 	LinkedList<String> aList;
@@ -59,7 +61,7 @@ public class ProcessResultSet {
 		String genre="";
 		String beatPattern="";		 
 		
-		result=test.returnForSong("'Its Like That'");
+		result=test.returnForSong("SongName","'Its Like That'");
 	
 	if (checkResultSet(result))
 		try {
@@ -71,41 +73,52 @@ public class ProcessResultSet {
 			e.printStackTrace();
 		}
 		
-		genreSet=test.returnMatchForSong("'"+genre+"'","'"+beatPattern+"'");	
-	//	beatSet=test.returnMatchForSong("BeatPattern", "'"+beatPattern+"'");	
-	
-		if (checkResultSet(genreSet))
-			try {
-				genreSet.beforeFirst();
-				while(genreSet.next())
-				{	aList.add(genreSet.getString("SongName"));
-				//    aList.add(genreSet.getString("Artist"));
-				}	
-				} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		bestMatchSet=test.returnMatchForSong("'"+genre+"'","'"+beatPattern+"'");		
+		addToList(bestMatchSet);
+		betterMatchSet=test.returnForSong("Genre","'"+genre+"'");
+		addToList(betterMatchSet);
+		//HashSet<String> noDups=new HashSet<String>(aList);
 	return genre;
 	}
 	
-	public void addToList(){		
-		if (checkResultSet(genreSet))
+	public void addToList(ResultSet Set){		
+		if (checkResultSet(Set))
 			try {
-				genreSet.beforeFirst();
-				while(genreSet.next())
-				{	aList.add(genreSet.getString("SongName"));
-				//    aList.add(genreSet.getString("Artist"));
+				Set.beforeFirst();
+				while(Set.next())
+				{	aList.add(Set.getString("SongName"));
+				    aList.add(Set.getString("Artist"));
 				}	
 				} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-		
-		
+				
 		
 		
 	}
+	
+	public LinkedList<String> proonList(LinkedList<String> list) {		
+		LinkedList<String> list2= new LinkedList<String>();
+		list2=list;
+		for (int y = 0; y < list.size(); y++) {
+	//	for (String member : list) {
+			
+			for (int i = y+1; i < list2.size(); i++) {
+				if (list.get(y).equals(list2.get(i))){
+					System.out.print(list2.size());
+					System.out.print("this is i"+ i+" "+y+ "\n");
+					list2.remove(i);					
+				//	list2.remove(i + 1);
+				}
+			}
+
+		}
+
+		return aList;
+	}
+	
+	
 	
 	
 	public static void main(String args[]) {
@@ -114,6 +127,11 @@ public class ProcessResultSet {
 		ProcessResultSet set=new ProcessResultSet();
 		set.work();
 		System.out.println(set.getList());
+		System.out.println(set.proonList(set.getList()));
+	//	set.proonList(set.getList());
+		
+
+	//	System.out.println(set.getList());
 		//
 //		ResultSet result=test.returnMatchForSong("SongName", "'Its Like That'");
 //	if (set.checkResultSet(result))
