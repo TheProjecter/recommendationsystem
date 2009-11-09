@@ -68,8 +68,12 @@ public class ProcessResultSet {
 		bestMatchSet = test.bestMatch("'" + genre + "'","'" + year + "'", "'"
 				+ bitRate + "'","'" + artist + "'");
 		addToList(bestMatchSet);
-	//	betterMatchSet = test.returnForSong("Genre", "'" + genre + "'");
-	//	addToList(betterMatchSet);
+		betterMatchSet = test.betterMatch("'" + genre + "'","'" + year + "'","'" + artist + "'");
+		addToList(betterMatchSet);
+		betterMatchSet = test.goodMatch("'" + genre + "'","'" + year + "'");
+		addToList(betterMatchSet);
+		betterMatchSet = test.genreMatch("'" + genre + "'");
+		addToList(betterMatchSet);
 		// HashSet<String> noDups=new HashSet<String>(aList);
 		return genre;
 	}
@@ -123,7 +127,7 @@ public class ProcessResultSet {
 
 		ProcessResultSet set=new ProcessResultSet();
 		set.work();	
-	//	set.pruneList(set.getList());
+		set.pruneList(set.getList());
 		System.out.println(set.getList());
 	
 		

@@ -36,7 +36,7 @@ public class Tester {
 					+ field + "=" + songName);
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			displaySQLErrors(e);
 		}
 
@@ -45,8 +45,7 @@ public class Tester {
 
 	public ResultSet bestMatch(String genreValue, String yearValue,
 			String bitValue, String artistValue) {
-		ResultSet result = null;
-		// PreparedStatement prepStmt = null;
+		ResultSet result = null;		
 
 		try {
 
@@ -56,13 +55,66 @@ public class Tester {
 							+ genreValue + " and Year = " + yearValue
 							+ " and Bitrate = " + bitValue + " and Artist = "
 							+ artistValue);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (SQLException e) {			
 			displaySQLErrors(e);
 		}
 
 		return result;
 	}
+	
+	public ResultSet betterMatch(String genreValue, String yearValue,
+			String artistValue) {
+		ResultSet result = null;		
+
+		try {
+
+			Statement select = con.createStatement();
+			result = select
+					.executeQuery("SELECT * from musicinfo Where Genre = "
+							+ genreValue + " and Year = " + yearValue
+							+ " and Artist = " + artistValue);
+		} catch (SQLException e) {			
+			displaySQLErrors(e);
+		}
+
+		return result;
+	}
+	
+	public ResultSet goodMatch(String genreValue, String yearValue) {
+		ResultSet result = null;		
+
+		try {
+
+			Statement select = con.createStatement();
+			result = select
+					.executeQuery("SELECT * from musicinfo Where Genre = "
+							+ genreValue + " and Year = " + yearValue);
+		} catch (SQLException e) {			
+			displaySQLErrors(e);
+		}
+
+		return result;
+	}
+	public ResultSet genreMatch(String genreValue) {
+		ResultSet result = null;		
+
+		try {
+
+			Statement select = con.createStatement();
+			result = select
+					.executeQuery("SELECT * from musicinfo Where Genre = "
+							+ genreValue);
+		} catch (SQLException e) {			
+			displaySQLErrors(e);
+		}
+
+		return result;
+	}
+	
+	
+	
+	
+	
 
 	public static void main(String args[]) {
 
