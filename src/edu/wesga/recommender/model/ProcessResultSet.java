@@ -14,7 +14,7 @@ public class ProcessResultSet {
 	ResultSet bestMatchSet;
 	ResultSet betterMatchSet;
 	String songName;
-	String artist;
+	String artist;	
 	LinkedList<String> aList;
 	
 	public ProcessResultSet(){
@@ -41,44 +41,37 @@ public class ProcessResultSet {
 	return true;
 	}
 	
-//	public void perfectMatch(String genre,String BitPattern ){
-//	Tester test= new Tester();
-//	ResultSet result=test.returnMatchForSong(genre, "'"+BitPattern+"'");
-//	if	
-//		
-//		
-//		
-//		
-//		
-//	}
+
 	public LinkedList<String> getList(){
 		
 	return aList;
 	}
 	
 	
-	public String work(){
-		String genre="";
-		String beatPattern="";		 
-		
-		result=test.returnForSong("SongName","'Its Like That'");
-	
-	if (checkResultSet(result))
-		try {
-			genre= result.getString("Genre");
-			beatPattern=result.getString("BeatPattern");
-		//	System.out.println(genre);
-			//System.out.println(beatPattern);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		bestMatchSet=test.returnMatchForSong("'"+genre+"'","'"+beatPattern+"'");		
+	public String work() {
+		String genre = "";
+		String bitRate = "";
+		String year = "";
+		String artist="";
+		result = test.returnForSong("Song", "'Nazareth Savage'");
+
+		if (checkResultSet(result))
+			try {
+				genre = result.getString("Genre");
+				year= result.getString("Year");
+				bitRate = result.getString("Bitrate");				
+				artist=result.getString("Artist");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		bestMatchSet = test.bestMatch("'" + genre + "'","'" + year + "'", "'"
+				+ bitRate + "'","'" + artist + "'");
 		addToList(bestMatchSet);
-		betterMatchSet=test.returnForSong("Genre","'"+genre+"'");
-		addToList(betterMatchSet);
-		//HashSet<String> noDups=new HashSet<String>(aList);
-	return genre;
+	//	betterMatchSet = test.returnForSong("Genre", "'" + genre + "'");
+	//	addToList(betterMatchSet);
+		// HashSet<String> noDups=new HashSet<String>(aList);
+		return genre;
 	}
 	
 	public void addToList(ResultSet Set){		
@@ -86,7 +79,7 @@ public class ProcessResultSet {
 			try {
 				Set.beforeFirst();
 				while(Set.next())
-				{	aList.add(Set.getString("SongName"));
+				{	aList.add(Set.getString("Song"));
 				    aList.add(Set.getString("Artist"));
 				}	
 				} catch (SQLException e) {
@@ -98,59 +91,41 @@ public class ProcessResultSet {
 		
 	}
 	
-	public LinkedList<String> proonList(LinkedList<String> list) {		
+	public LinkedList<String> pruneList(LinkedList<String> list) {		
 		LinkedList<String> list2= new LinkedList<String>();
 		list2=list;
-		for (int y = 0; y < list.size(); y++) {
-	//	for (String member : list) {
+		int y = 0;
+		while ( y < list.size()-2) {	
 			
 			for (int i = y+1; i < list2.size(); i++) {
+				
 				if (list.get(y).equals(list2.get(i))){
-					System.out.print(list2.size());
-					System.out.print("this is i"+ i+" "+y+ "\n");
-					list2.remove(i);					
-				//	list2.remove(i + 1);
+				
+			//		System.out.print("this is i"+ i+" "+y+ "\n");										
+					list2.remove(i + 1);
+					list2.remove(i);
+					i=i-1;
 				}
 			}
-
+			
+			y=y+2;
+		
 		}
 
-		return aList;
+		return list2;
 	}
 	
+
 	
 	
 	
 	public static void main(String args[]) {
 
-	//	Tester test= new Tester();
 		ProcessResultSet set=new ProcessResultSet();
-		set.work();
+		set.work();	
+	//	set.pruneList(set.getList());
 		System.out.println(set.getList());
-		System.out.println(set.proonList(set.getList()));
-	//	set.proonList(set.getList());
-		
-
-	//	System.out.println(set.getList());
-		//
-//		ResultSet result=test.returnMatchForSong("SongName", "'Its Like That'");
-//	if (set.checkResultSet(result))
-//	
-//		System.out.println("good");
-//		
-//	
-//	else	
-//		System.out.println("bad");
-//		
-//	try {
-//		result.next();
-//		System.out.print(result.getString("SongName"));
-//	} catch (SQLException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
-		
-//		//System.out.print("SELECT * from musicinfo Where " + field+"="+fieldValue);
+	
 		
 	}
 
